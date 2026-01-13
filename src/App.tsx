@@ -9,7 +9,7 @@ import useDebounce from "./hooks/useDebounce";
 import "./index.css";
 
 function App() {
-  // 🔹 States
+  //  States
   const [query, setQuery] = useState("");
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,34 +23,20 @@ function App() {
 
   const [selectedBook, setSelectedBook] = useState(null);
 
-  // 🔹 Debounced query
+  //  Debounced query
   const debouncedQuery = useDebounce(query, 500);
 
-  // 🔹 Fetch books from API
-  // const fetchBooks = async () => {
-  //   if (!query) return;
-
-  //   setLoading(true);
-  //   try {
-  //     const res = await fetch(`https://openlibrary.org/search.json?q=${query}`);
-  //     const data = await res.json();
-  //     setBooks(data.docs.slice(0, 20));
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  //   setLoading(false);
-  // };
+  
 
   const fetchBooks = async () => {
-  if (!query || query.length < 3) return; // 🔥 FIX
+  if (!query || query.length < 3) return; 
 
   setLoading(true);
   try {
     const res = await fetch(
       `https://openlibrary.org/search.json?q=${query}`
     );
-    // const data = await res.json();
-    // setBooks(data.docs.slice(0, 20));
+   
     const data = await res.json();
 setBooks(data.docs ? data.docs.slice(0, 20) : []);
 
@@ -60,14 +46,14 @@ setBooks(data.docs ? data.docs.slice(0, 20) : []);
   setLoading(false);
 };
 
-  // 🔹 Auto search on typing (debounce)
+  
   useEffect(() => {
     if (debouncedQuery) {
       fetchBooks();
     }
   }, [debouncedQuery]);
 
-  // 🔹 Favorite add/remove
+  // local storage for the fav books
   const toggleFavorite = (book) => {
     let updatedFavs;
 
@@ -81,11 +67,11 @@ setBooks(data.docs ? data.docs.slice(0, 20) : []);
     localStorage.setItem("favorites", JSON.stringify(updatedFavs));
   };
 
-  // 🔹 Modal handlers
+  //  Modal handlers
   const openDetails = (book) => setSelectedBook(book);
   const closeDetails = () => setSelectedBook(null);
 
-  // 🔹 Filters & Sorting logic
+  //  Filters & Sorting logic
   let filteredBooks = [...books];
 
   if (filter === "author") {
@@ -116,19 +102,19 @@ setBooks(data.docs ? data.docs.slice(0, 20) : []);
     <div className="app">
       <h1>📚 Book Search App</h1>
 
-      {/* 🔍 Search */}
+      {/* Search */}
       <SearchBar query={query} setQuery={setQuery} onSearch={fetchBooks} />
 
-      {/* 🔎 Filters */}
+      {/*  Filters */}
       <Filters setSort={setSort} setFilter={setFilter} />
 
-      {/* ⏳ Loader */}
+      {/*  Loader */}
       {loading && <Loader />}
 
-      {/* ❌ No Results */}
+      {/*  No Results */}
       {!loading && query && filteredBooks.length === 0 && <NoResults />}
 
-      {/* 📚 Books List */}
+      {/*  Books List */}
       <div className="books">
         {filteredBooks.map((book) => (
           <BookCard
@@ -141,7 +127,7 @@ setBooks(data.docs ? data.docs.slice(0, 20) : []);
         ))}
       </div>
 
-      {/* ❤️ Favorites Section */}
+      {/*  Favorites Section */}
       {favorites.length > 0 && (
         <>
           <h2 style={{ marginTop: "40px" }}>❤️ My Favorites</h2>
@@ -159,7 +145,7 @@ setBooks(data.docs ? data.docs.slice(0, 20) : []);
         </>
       )}
 
-      {/* 📖 Book Details Modal */}
+      {/*  Book Details Modal */}
       <BookModal book={selectedBook} close={closeDetails} />
     </div>
   );

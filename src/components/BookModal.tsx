@@ -12,14 +12,14 @@ function BookModal({ book, close }) {
       setLoading(true);
 
       try {
-        // 1️⃣ Work API
+      
         const workRes = await fetch(
           `https://openlibrary.org${book.key}.json`
         );
         const workJson = await workRes.json();
         setWorkData(workJson);
 
-        // 2️⃣ Editions API
+       
         const editionRes = await fetch(
           `https://openlibrary.org${book.key}/editions.json?limit=1`
         );
