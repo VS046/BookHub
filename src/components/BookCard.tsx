@@ -1,5 +1,5 @@
-const DEFAULT_COVER =
-  "https://via.placeholder.com/200x300?text=No+Cover";
+ const DEFAULT_COVER =
+  " ./public/default image.jpg";
 
 function BookCard({ book, favorites, toggleFavorite, openDetails }) {
   const isFav = favorites.some((fav) => fav.key === book.key);

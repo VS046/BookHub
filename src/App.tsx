@@ -26,27 +26,21 @@ function App() {
   //  Debounced query
   const debouncedQuery = useDebounce(query, 500);
 
-  
-
   const fetchBooks = async () => {
-  if (!query || query.length < 3) return; 
+    if (!query || query.length < 3) return;
 
-  setLoading(true);
-  try {
-    const res = await fetch(
-      `https://openlibrary.org/search.json?q=${query}`
-    );
-   
-    const data = await res.json();
-setBooks(data.docs ? data.docs.slice(0, 20) : []);
+    setLoading(true);
+    try {
+      const res = await fetch(`https://openlibrary.org/search.json?q=${query}`);
 
-  } catch (err) {
-    console.error(err);
-  }
-  setLoading(false);
-};
+      const data = await res.json();
+      setBooks(data.docs ? data.docs.slice(0, 20) : []);
+    } catch (err) {
+      console.error(err);
+    }
+    setLoading(false);
+  };
 
-  
   useEffect(() => {
     if (debouncedQuery) {
       fetchBooks();
@@ -100,7 +94,7 @@ setBooks(data.docs ? data.docs.slice(0, 20) : []);
 
   return (
     <div className="app">
-      <h1>📚 Book Search App</h1>
+      <h1>  📚 Book Search App</h1>
 
       {/* Search */}
       <SearchBar query={query} setQuery={setQuery} onSearch={fetchBooks} />
